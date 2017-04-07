@@ -1,0 +1,12 @@
+{
+  "http":{
+    "port":3000
+  },
+  "https":{
+    "key":"/Users/subaru/Desktop/project/system/ssl/ryans-key.pem",
+    "csr":"/Users/subaru/Desktop/project/system/ssl/ryans-csr.pem",
+    "cert":"/Users/subaru/Desktop/project/system/ssl/ryans-cert.pem",
+    "ryans":"/Users/subaru/Desktop/project/system/ssl/ryans.pfx",
+    "port":8080,
+  }
+}

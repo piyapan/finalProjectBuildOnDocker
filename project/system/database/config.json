@@ -1,0 +1,18 @@
+{
+  "mysql":{
+    "docker":{
+      "host":"mysql_project",
+      "user":"root",
+      "password":"PINA#3996",
+      "database":"project"
+    },
+    "localhost":{
+      "host":"localhost",
+      "user":"root",
+      "password":"PINA#3996",
+      "database":"network"
+
+    }
+  },
+  "mongo":null
+}

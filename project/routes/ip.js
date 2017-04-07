@@ -1,0 +1,10 @@
+var express = require('express');
+var router = express.Router();
+var ip = require('../controller/ip');
+router.get('/',ip.index);
+router.post('/save',ip.savepackage);
+router.get('/type/:id',ip.getData);
+router.get('/customer/:id', ip.getCustomer);
+router.get('/use',ip.IPByUse);
+router.post('/pack',ip.MatchIp);
+module.exports = router;

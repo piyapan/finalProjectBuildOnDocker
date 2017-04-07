@@ -1,0 +1,29 @@
+version: "2"
+services:
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./tmp/nginx:/var/log/nginx/log
+    links:
+      - project:project
+    ports:
+      - 80:80
+  project:
+      build: ./project
+      volumes:
+        - ./project:/project
+      command:  node ./bin/www
+      links:
+          - mysql_project
+      ports:
+        - 3000
+  mysql_project:
+      image: mysql:latest
+      container_name: mysql_project
+      volumes:
+        - ./mysql/:/docker-entrypoint-initdb.d
+        - ./tmp/mysql:/var/lib/mysql
+      environment:
+        - MYSQL_DATABASE=project
+        - MYSQL_ROOT_PASSWORD=PINA#3996
