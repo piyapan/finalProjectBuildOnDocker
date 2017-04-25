@@ -1,23 +1,37 @@
-version: "2"
+version: "3"
 services:
 
   nginx:
-    build: ./nginx
+    build:
+      context: ./nginx
     volumes:
       - ./tmp/nginx:/var/log/nginx/log
-    links:
+    depends_on:
+      - project
+    external_links:
       - project:project
     ports:
       - 80:80
+    deploy:
+      replicas: 3
+      placement:
+        constraints: [node.role == worker]
   project:
-      build: ./project
+      build:
+        context: ./project
       volumes:
         - ./project:/project
       command:  node ./bin/www
-      links:
+      external_links:
+        - mysql_project:mysql_project
+      depends_on:
           - mysql_project
       ports:
         - 3000
+      deploy:
+        replicas: 3
+        placement:
+          constraints: [node.role == worker]
   mysql_project:
       image: mysql:latest
       container_name: mysql_project
@@ -27,3 +41,6 @@ services:
       environment:
         - MYSQL_DATABASE=project
         - MYSQL_ROOT_PASSWORD=PINA#3996
+      deploy:
+        placement:
+          constraints: [node.role == manager]
