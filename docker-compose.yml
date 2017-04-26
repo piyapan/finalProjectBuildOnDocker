@@ -1,40 +1,35 @@
 version: "3"
 services:
-
   nginx:
-    build:
-      context: ./nginx
+    image: projectwithdocker_nginx:latest
     volumes:
       - ./tmp/nginx:/var/log/nginx/log
     depends_on:
       - project
-    external_links:
-      - project:project
     ports:
       - 80:80
+    restart: always
     deploy:
       replicas: 3
       placement:
         constraints: [node.role == worker]
   project:
-      build:
-        context: ./project
+      image: projectwithdocker_project:latest
+      restart: always
       volumes:
         - ./project:/project
       command:  node ./bin/www
-      external_links:
-        - mysql_project:mysql_project
       depends_on:
           - mysql_project
       ports:
         - 3000
       deploy:
-        replicas: 3
+        replicas: 1
         placement:
           constraints: [node.role == worker]
   mysql_project:
       image: mysql:latest
-      container_name: mysql_project
+      restart: always
       volumes:
         - ./mysql/:/docker-entrypoint-initdb.d
         - ./tmp/mysql:/var/lib/mysql
